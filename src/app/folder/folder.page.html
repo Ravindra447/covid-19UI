@@ -1,21 +1,109 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>{{ folder }}</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>{{ folder | titlecase }}</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ folder }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">{{ folder | titlecase}}</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-card>
+                    <ion-item>
+                        <ion-label><img src="../assets/icon/cases.png" alt="Smiley face" height="42" width="42">&nbsp;&nbsp;&nbsp;Total Cases : {{totalConfirmedCases | number}}</ion-label>
+                    </ion-item>
+                </ion-card>
+            </ion-col>
+            <ion-col>
+                <ion-card>
+                    <ion-item>
+                        <ion-label><img src="../assets/icon/dead.png" alt="Smiley face" height="42" width="42">&nbsp;&nbsp;&nbsp;Total Deaths : {{totalDeaths | number}}</ion-label>
+                    </ion-item>
+                </ion-card>
+            </ion-col>
+            <ion-col>
+                <ion-card>
+                    <ion-item>
+                        <ion-label><img src="../assets/icon/saved.jpg" alt="Smiley face" height="42" width="42">&nbsp;&nbsp;&nbsp;Total Recovered : {{totalRecoveredCases | number}}</ion-label>
+                    </ion-item>
+                </ion-card>
+            </ion-col>
 
-  <div id="container">
-    <strong class="capitalize">{{ folder }}</strong>
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+        </ion-row>
+    </ion-grid>
+    <!-- <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
+    </agm-map> -->
+    <ion-grid style="margin: 15px;">
+
+        <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" #AgmMap [disableDefaultUI]="true">
+
+            <ng-container *ngFor="let m of markers; let i = index">
+                <!-- [label]="m.label" (markerClick)="clickedMarker(m.label, i)"  [isOpen]="true"-->
+                <agm-marker [latitude]="m.lat" [longitude]="m.lng" [iconUrl]="m.icon">
+
+                    <agm-info-window>
+                        <div>{{m.content}}</div>
+                    </agm-info-window>
+
+                </agm-marker>
+
+            </ng-container>
+
+        </agm-map>
+
+    </ion-grid>
+    <ion-grid *ngIf="folder==='canada'">
+        <ion-title size="large">Provinces/States And Territorial Cases :</ion-title>
+    </ion-grid>
+    <ion-grid *ngIf="folder==='global'">
+        <ion-title size="large">Country wise Cases :</ion-title>
+    </ion-grid>
+    <ion-grid style="margin: 15px;">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="table-success">
+                        <th *ngIf="folder==='canada'">Provinces/State</th>
+                        <th *ngIf="folder==='global'">Country</th>
+
+                        <th>Total Cases</th>
+                        <th>new Cases</th>
+                        <th>Total Deaths</th>
+                        <th>new Deaths</th>
+
+                        <th>Total Recovered</th>
+                        <th>new Recovered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of markers; let i = index">
+                        <tr class="table-info">
+                            <td *ngIf="folder==='canada'">{{item.provinceOrState}}</td>
+                            <td *ngIf="folder==='global'">{{item.countryOrRegion}}</td>
+
+                            <td>{{item.totalConfirmedCases}}</td>
+
+                            <td>{{item.newlyConfirmedCases}}</td>
+                            <td>{{item.totalDeaths}}</td>
+                            <td>{{item.newDeaths}}</td>
+                            <td>{{item.totalRecoveredCases}}</td>
+                            <td>{{item.newlyRecoveredCases}}</td>
+
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </ion-grid>
+
+
 </ion-content>
