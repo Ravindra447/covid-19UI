@@ -6,9 +6,11 @@ import { IonicModule } from '@ionic/angular';
 
 import { FolderPageRoutingModule } from './folder-routing.module';
 
-import { FolderPage } from './folder.page';
 import { AgmCoreModule } from '@agm/core';
 
+import { HomeComponent } from './components/home/home.component';
+import { DataPopoverComponent } from './components/data-popover/data-popover.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -19,9 +21,11 @@ import { AgmCoreModule } from '@agm/core';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyA50lL8jt2R_R_8A-zamt9HNv6jZFwGj60',
       libraries: ['places']
-    })
+    }),
+    MatTooltipModule
   ],
-  declarations: [FolderPage]
+  entryComponents:[],
+  declarations: [HomeComponent]
 })
 export class FolderPageModule {
 

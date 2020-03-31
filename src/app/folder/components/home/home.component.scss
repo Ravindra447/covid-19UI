@@ -1,0 +1,37 @@
+ion-menu-button {
+    color: var(--ion-color-primary);
+}
+
+ion-content ion-toolbar {
+    --background: transparent;
+}
+
+ion-title {
+    color: #3E5002;
+}
+
+agm-map {
+    height: 80vh;
+}
+
+.carona-high {
+    fill: red;
+    cursor: pointer;
+}
+
+.carona-midium {
+    fill: orange;
+    cursor: pointer;
+}
+
+.carona-normal {
+    fill: lightsalmon;
+    cursor: pointer;
+}
+
+// #CA-AB:hover {
+//     cursor: pointer;
+//     color: red;
+//     background: red;
+//     background-color: red;
+// }
