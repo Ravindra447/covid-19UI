@@ -10,6 +10,8 @@ import { AgmCoreModule } from '@agm/core';
 
 import { HomeComponent } from './components/home/home.component';
 import { DataPopoverComponent } from './components/data-popover/data-popover.component';
+import { FindNearComponent } from './components/find-near/find-near.component';
+
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
@@ -25,7 +27,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTooltipModule
   ],
   entryComponents:[],
-  declarations: [HomeComponent]
+  declarations: [HomeComponent,FindNearComponent]
 })
 export class FolderPageModule {
 

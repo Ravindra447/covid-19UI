@@ -46,7 +46,7 @@
         <!-- <?xml version="1.0" encoding="UTF-8" standalone="no"?> -->
         <!-- Created for MapSVG plugin: http://mapsvg.com -->
 
-        <agm-map [latitude]="latitude" [longitude]="longitude" [minZoom]="zoom" [scrollwheel]="false" [zoom]="zoom" [disableDefaultUI]="true">
+        <agm-map [latitude]="latitude" gestureHandling="cooperative" [longitude]="longitude" [minZoom]="zoom - 1" [scrollwheel]="false" [zoom]="zoom" [disableDefaultUI]="true">
 
             <ng-container *ngFor="let m of markers; let i = index">
                 <!-- [label]="m.label" (markerClick)="clickedMarker(m.label, i)"  [isOpen]="true"-->

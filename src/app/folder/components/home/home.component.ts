@@ -1,13 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiServicesService } from '../../../services/api-services.service';
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-
-am4core.useTheme(am4themes_animated);
 import { PopoverController } from '@ionic/angular';
-import { DataPopoverComponent } from '../../components/data-popover/data-popover.component'
+// import { DataPopoverComponent } from '../../components/data-popover/data-popover.component'
 // interface marker {
 //   lat: number;
 //   lng: number;
@@ -61,7 +56,8 @@ export class HomeComponent implements OnInit {
   CASK: string;
   CAYT: string;
   ngOnInit() {
-    this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+    // this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+    this.folder=window.location.pathname.split('covid-19/')[1];
     if (this.folder === "canada") {
       this.defaultState = "CA";
       this.zoom = 4
@@ -70,6 +66,7 @@ export class HomeComponent implements OnInit {
       this.zoom = 3
     }
     this.getCovidData();
+    this.getCurrentLocation();
   }
   markers: any = []
   // markers: marker[] = [
@@ -83,15 +80,16 @@ export class HomeComponent implements OnInit {
   //     icon: './assets/icon/map.png'
   //   }
   // ]
-  // private setCurrentLocation() {
-  //   if ('geolocation' in navigator) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       this.latitude = position.coords.latitude;
-  //       this.longitude = position.coords.longitude;
-  //       this.zoom = 15;
-  //     });
-  //   }
-  // }
+  private getCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        // this.latitude = position.coords.latitude;
+        // this.longitude = position.coords.longitude;
+        // this.zoom = 15;
+        console.log("Log: "+position.coords.longitude,"Lat : "+position.coords.latitude)
+      });
+    }
+  }
 
   mapMouseOver(state) {
     // console.log(state,this.CAAB)

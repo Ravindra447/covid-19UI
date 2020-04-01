@@ -21,6 +21,11 @@ export class AppComponent implements OnInit {
       title: 'Global',
       url: '/covid-19/global',
       icon: 'globe'
+    },
+    {
+      title: 'Find Near',
+      url: '/covid-19/findNear',
+      icon: 'globe'
     }
     // ,
     // {
