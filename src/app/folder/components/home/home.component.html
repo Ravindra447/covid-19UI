@@ -46,7 +46,7 @@
         <!-- <?xml version="1.0" encoding="UTF-8" standalone="no"?> -->
         <!-- Created for MapSVG plugin: http://mapsvg.com -->
 
-        <agm-map [latitude]="latitude" gestureHandling="cooperative" [longitude]="longitude" [minZoom]="zoom - 1" [scrollwheel]="false" [zoom]="zoom" [disableDefaultUI]="true">
+        <agm-map [latitude]="latitude" gestureHandling="cooperative" [longitude]="longitude" [minZoom]="minZoom" [scrollwheel]="false" [zoom]="zoom" [disableDefaultUI]="true">
 
             <ng-container *ngFor="let m of markers; let i = index">
                 <!-- [label]="m.label" (markerClick)="clickedMarker(m.label, i)"  [isOpen]="true"-->
@@ -66,7 +66,7 @@
     <ion-grid *ngIf="folder==='canada'">
         <ion-title size="large">Provinces/States And Territorial Cases :</ion-title>
     </ion-grid>
-    <ion-grid *ngIf="folder==='global'">
+    <ion-grid *ngIf="folder!=='canada'">
         <ion-title size="large">Country wise Cases :</ion-title>
     </ion-grid>
     <ion-grid style="margin: 15px;">
@@ -75,7 +75,7 @@
                 <thead>
                     <tr class="table-success">
                         <th *ngIf="folder==='canada'">Provinces/State</th>
-                        <th *ngIf="folder==='global'">Country</th>
+                        <th *ngIf="folder!=='canada'">Country</th>
 
                         <th>Total Cases</th>
                         <th>new Cases</th>
@@ -87,10 +87,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let item of markers; let i = index">
+                    <ng-container *ngFor="let item of totalStateInfo; let i = index">
                         <tr class="table-info">
                             <td *ngIf="folder==='canada'">{{item.provinceOrState}}</td>
-                            <td *ngIf="folder==='global'">{{item.countryOrRegion}}</td>
+                            <td *ngIf="folder!=='canada'">{{item.countryOrRegion}}</td>
 
                             <td>{{item.totalConfirmedCases}}</td>
 

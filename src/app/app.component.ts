@@ -23,36 +23,10 @@ export class AppComponent implements OnInit {
       icon: 'globe'
     },
     {
-      title: 'Find Near',
-      url: '/covid-19/findNear',
-      icon: 'globe'
+      title: 'Tracker',
+      url: '/covid-19/tracker',
+      icon: 'analytics'
     }
-    // ,
-    // {
-    //   title: 'Outbox',
-    //   url: '/folder/Outbox',
-    //   icon: 'paper-plane'
-    // },
-    // {
-    //   title: 'Favorites',
-    //   url: '/folder/Favorites',
-    //   icon: 'heart'
-    // },
-    // {
-    //   title: 'Archived',
-    //   url: '/folder/Archived',
-    //   icon: 'archive'
-    // },
-    // {
-    //   title: 'Trash',
-    //   url: '/folder/Trash',
-    //   icon: 'trash'
-    // },
-    // {
-    //   title: 'Spam',
-    //   url: '/folder/Spam',
-    //   icon: 'warning'
-    // }
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 

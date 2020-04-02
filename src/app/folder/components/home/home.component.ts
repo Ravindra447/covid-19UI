@@ -2,6 +2,8 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiServicesService } from '../../../services/api-services.service';
 import { PopoverController } from '@ionic/angular';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
+import { Device } from '@ionic-native/device';
 // import { DataPopoverComponent } from '../../components/data-popover/data-popover.component'
 // interface marker {
 //   lat: number;
@@ -22,16 +24,18 @@ export class HomeComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
     private apiService: ApiServicesService,
-    private popover: PopoverController) { }
+    private popover: PopoverController,
+    private uniqueDeviceID: UniqueDeviceID) { }
 
   defaultState: string;
 
   latitude: number;
   longitude: number;
   zoom: number;
+  minZoom:number;
   CovidData: any;
   covidDataByStates: any = [];
-
+  totalStateInfo:any=[];
   totalConfirmedCases: number;
   newlyConfirmedCases: number;
   totalDeaths: number;
@@ -65,8 +69,13 @@ export class HomeComponent implements OnInit {
       this.defaultState = "global";
       this.zoom = 3
     }
+    this.minZoom=this.zoom-1;
     this.getCovidData();
-    this.getCurrentLocation();
+
+    this.uniqueDeviceID.get()
+  .then((uuid: any) => console.log(uuid))
+  .catch((error: any) => console.log(111,error));
+  
   }
   markers: any = []
   // markers: marker[] = [
@@ -83,12 +92,43 @@ export class HomeComponent implements OnInit {
   private getCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        // this.latitude = position.coords.latitude;
-        // this.longitude = position.coords.longitude;
-        // this.zoom = 15;
-        console.log("Log: "+position.coords.longitude,"Lat : "+position.coords.latitude)
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        console.log(position); 
+        this.getTrackNearMeData();
+        this.zoom = 12;
+        this.minZoom=3;
+        this.markers.push(   {
+          lat: this.latitude,
+          lng: this.longitude,
+          // label: '542',
+          draggable: false,
+          content: 'Me',
+          isShown: false,
+          icon: './assets/icon/myMaps.png'
+        })
       });
     }
+  }
+  getTrackNearMeData(){
+    this.apiService.getTrackNearMeData(this.latitude,this.longitude).subscribe((data: any) => {
+      if(data.status){
+        let TrackedData=data.result;
+        TrackedData.forEach(user => {
+          this.markers.push(
+            {
+              lat: user.geometry.coordinates[0],
+              lng: user.geometry.coordinates[1],
+              // label: '542',
+              draggable: false,
+              content: user.name,
+              isShown: false,
+              icon: './assets/icon/map.png'
+            })
+        });
+      }
+      console.log(data);
+    })
   }
 
   mapMouseOver(state) {
@@ -118,7 +158,7 @@ export class HomeComponent implements OnInit {
         this.covidDataByStates = this.CovidData.stats.breakdowns;
 
         this.covidDataByStates.forEach(stateData => {
-          this.markers.push({
+          this.totalStateInfo.push({
             countryOrRegion: stateData.location.countryOrRegion,
             provinceOrState: stateData.location.provinceOrState,
             totalConfirmedCases: stateData.totalConfirmedCases,
@@ -127,25 +167,44 @@ export class HomeComponent implements OnInit {
             totalDeaths: stateData.totalDeaths,
             newDeaths: stateData.newDeaths,
             totalRecoveredCases: stateData.totalRecoveredCases,
-            newlyRecoveredCases: stateData.newlyRecoveredCases,
-
-
-            lat: stateData.location.lat,
-            lng: stateData.location.long,
-            // label: '542',
-            draggable: false,
-            content: 'Cases - ' + stateData.totalConfirmedCases,
-            isShown: false,
-            icon: './assets/icon/map.png'
-          })
-        });
+            newlyRecoveredCases: stateData.newlyRecoveredCases})
+          });
         console.log(this.markers);
+        if(this.folder === "tracker"){
+          this.getCurrentLocation();
+        }else{
+          this.setMarkerInMap();
+        }
 
         // this.setSvgContent();
       }
     })
   }
+  setMarkerInMap(){
+    this.covidDataByStates.forEach(stateData => {
+      this.markers.push({
+        // countryOrRegion: stateData.location.countryOrRegion,
+        // provinceOrState: stateData.location.provinceOrState,
+        // totalConfirmedCases: stateData.totalConfirmedCases,
+        // newlyConfirmedCases: stateData.newlyConfirmedCases,
+        // isoCode: stateData.location.isoCode,
+        // totalDeaths: stateData.totalDeaths,
+        // newDeaths: stateData.newDeaths,
+        // totalRecoveredCases: stateData.totalRecoveredCases,
+        // newlyRecoveredCases: stateData.newlyRecoveredCases,
 
+
+        lat: stateData.location.lat,
+        lng: stateData.location.long,
+        // label: '542',
+        draggable: false,
+        content: 'Cases - ' + stateData.totalConfirmedCases,
+        isShown: false,
+        icon: './assets/icon/map.png'
+      })
+    });
+    
+  }
   setSvgContent(){
     
     this.CAAB = this.markers.find(obj => obj.isoCode == "CA-AB").provinceOrState + ", " + this.markers.find(obj => obj.isoCode == "CA-AB").content + ", Deaths " + this.markers.find(obj => obj.isoCode == "CA-AB").totalDeaths;

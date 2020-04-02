@@ -11,6 +11,7 @@ import { AgmCoreModule } from '@agm/core';
 import { HomeComponent } from './components/home/home.component';
 import { DataPopoverComponent } from './components/data-popover/data-popover.component';
 import { FindNearComponent } from './components/find-near/find-near.component';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 
 import {MatTooltipModule} from '@angular/material/tooltip';
 
@@ -27,7 +28,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTooltipModule
   ],
   entryComponents:[],
-  declarations: [HomeComponent,FindNearComponent]
+  declarations: [HomeComponent,FindNearComponent],
+  providers:[UniqueDeviceID]
 })
 export class FolderPageModule {
 

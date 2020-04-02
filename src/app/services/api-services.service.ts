@@ -20,4 +20,13 @@ export class ApiServicesService {
     }
     return this.http.get(this.url + `/getCovidDataByState/${state}`, httpOptions)
   }
+
+  getTrackNearMeData(lat,lng){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get(this.url + `/getNearPersonInfo/${lat}/${lng}/30000`, httpOptions)
+  }
 }

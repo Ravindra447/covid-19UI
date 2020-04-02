@@ -18,8 +18,8 @@ const routes: Routes = [
     component:HomeComponent
   },
   {
-    path:'findNear',
-    component:FindNearComponent
+    path:'tracker',
+    component:HomeComponent
   }
 ];
 
